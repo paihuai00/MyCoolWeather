@@ -47,4 +47,5 @@ dependencies {
 
     //添加适配布局
     compile 'com.zhy:autolayout:1.4.5'
+
 }

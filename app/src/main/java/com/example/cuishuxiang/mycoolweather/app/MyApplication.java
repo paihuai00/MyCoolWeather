@@ -11,5 +11,11 @@ import org.litepal.LitePalApplication;
 
 public class MyApplication extends LitePalApplication {
 
-
+    /**
+     * 数据查询  key= defbffa06a1846fe8bab0b271a9eca6e
+     */
+    @Override
+    public void onCreate() {
+        super.onCreate();
+    }
 }

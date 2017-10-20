@@ -17,6 +17,7 @@ public interface MainContract {
 
     interface Model extends BaseModel {
         List<Province> queryResponse(String url);
+
     }
 
     interface View extends BaseView {

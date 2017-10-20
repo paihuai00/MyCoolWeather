@@ -1,4 +1,4 @@
-package com.example.cuishuxiang.mycoolweather.fragments;
+package com.example.cuishuxiang.mycoolweather.ui.fragments;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;

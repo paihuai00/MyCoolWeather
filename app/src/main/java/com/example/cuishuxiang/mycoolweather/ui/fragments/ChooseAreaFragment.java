@@ -36,7 +36,7 @@ public class ChooseAreaFragment extends BaseFragment {
     Button backBtn;
     @BindView(R.id.list_view)
     ListView listView;
-    Unbinder unbinder;
+
 
     private ProgressDialog progressDialog;
 
@@ -74,17 +74,11 @@ public class ChooseAreaFragment extends BaseFragment {
      */
     private int currentLevel;
 
-    @Nullable
+    private View rootView;
+
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-        View view = inflater.inflate(R.layout.choose_area, container, false);
-
-        unbinder = ButterKnife.bind(this, view);
-
-
-        initView();
-        return view;
+    public int getLayoutRes() {
+        return R.layout.choose_area;
     }
 
     private void initView() {
@@ -92,9 +86,5 @@ public class ChooseAreaFragment extends BaseFragment {
 
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
+
 }

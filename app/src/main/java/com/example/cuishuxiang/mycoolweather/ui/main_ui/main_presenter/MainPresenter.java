@@ -1,27 +1,32 @@
 package com.example.cuishuxiang.mycoolweather.ui.main_ui.main_presenter;
 
-import com.csx.mlibrary.base_presenter.BasePresenter;
+import com.example.cuishuxiang.mycoolweather.bean_db.Province;
 import com.example.cuishuxiang.mycoolweather.ui.main_ui.main_contract.MainContract;
-import com.example.cuishuxiang.mycoolweather.utils.HttpUtils;
+import com.csx.mlibrary.base_model.OnUrlRequestCallBack;
 
-import java.io.IOException;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
+import java.util.List;
 
 /**
  * Created by cuishuxiang on 2017/10/20.
  */
 
-public class MainPresenter extends MainContract.Presenter {
+public class MainPresenter extends MainContract.Presenter implements OnUrlRequestCallBack<List<Province>>{
     private static final String TAG = "MainPresenter";
 
     @Override
     public void mainRequest(String url) {
-        mModel.queryResponse(url);
 
+        mModel.queryResponse(url, this);
 
-        mView.returnResponse(mModel.queryResponse(url));
+    }
+
+    @Override
+    public void requestSucceed(List<Province> provinceList) {
+        mView.returnResponse(provinceList);
+    }
+
+    @Override
+    public void requestFailed() {
+
     }
 }

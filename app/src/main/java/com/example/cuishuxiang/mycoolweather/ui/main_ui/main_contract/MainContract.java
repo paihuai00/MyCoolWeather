@@ -4,10 +4,9 @@ import com.csx.mlibrary.base_model.BaseModel;
 import com.csx.mlibrary.base_presenter.BasePresenter;
 import com.csx.mlibrary.base_view.BaseView;
 import com.example.cuishuxiang.mycoolweather.bean_db.Province;
+import com.csx.mlibrary.base_model.OnUrlRequestCallBack;
 
 import java.util.List;
-
-import okhttp3.Response;
 
 /**
  * Created by cuishuxiang on 2017/10/20.
@@ -16,8 +15,7 @@ import okhttp3.Response;
 public interface MainContract {
 
     interface Model extends BaseModel {
-        List<Province> queryResponse(String url);
-
+        void queryResponse(String url, OnUrlRequestCallBack<List<Province>> onUrlRequestCallBack);
     }
 
     interface View extends BaseView {

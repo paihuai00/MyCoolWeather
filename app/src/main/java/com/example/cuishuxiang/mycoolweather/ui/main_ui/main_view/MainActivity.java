@@ -2,13 +2,19 @@ package com.example.cuishuxiang.mycoolweather.ui.main_ui.main_view;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.cuishuxiang.mycoolweather.R;
+import com.example.cuishuxiang.mycoolweather.app.Urls;
 import com.example.cuishuxiang.mycoolweather.base.BaseActivity;
 import com.example.cuishuxiang.mycoolweather.bean_db.Province;
 import com.example.cuishuxiang.mycoolweather.ui.main_ui.main_contract.MainContract;
 import com.example.cuishuxiang.mycoolweather.ui.main_ui.main_model.MainModel;
 import com.example.cuishuxiang.mycoolweather.ui.main_ui.main_presenter.MainPresenter;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.List;
@@ -18,6 +24,8 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+
+import static android.R.attr.x;
 
 public class MainActivity extends BaseActivity implements MainContract.View{
     private static final String TAG = "MainActivity";
@@ -32,24 +40,8 @@ public class MainActivity extends BaseActivity implements MainContract.View{
         mPresenter = new MainPresenter();
         mPresenter.setVM(this, new MainModel());
 
-        mPresenter.mainRequest("http://guolin.tech/api/china");
+        mPresenter.mainRequest(Urls.All_PROVINCE_URL);
 
-        OkHttpClient okHttpClient = new OkHttpClient();
-        Request request = new Request.Builder()
-                .url("http://gank.io/api/data/%E7%A6%8F%E5%88%A9/7/10")
-                .build();
-
-        okHttpClient.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                Log.d(TAG, "onResponse: ");
-            }
-        });
     }
 
     @Override
@@ -67,8 +59,20 @@ public class MainActivity extends BaseActivity implements MainContract.View{
 
     }
 
+    /**
+     * 注意，此处不是主线程，如需更新ui，则需要切换到主线程
+     * @param provinceList
+     */
     @Override
-    public void returnResponse(List<Province> provinceList) {
-        Log.d(TAG, "returnResponse: ");
+    public void returnResponse(final List<Province> provinceList) {
+        if (provinceList != null) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Log.d(TAG, "MainTAG: makeText " +"  "+Thread.currentThread().getName().toString());
+                    Toast.makeText(MainActivity.this, "接受到返回数据：" + provinceList.size(), Toast.LENGTH_LONG).show();
+                }
+            });
+        }
     }
 }

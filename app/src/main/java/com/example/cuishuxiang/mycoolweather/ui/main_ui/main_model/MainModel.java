@@ -2,6 +2,7 @@ package com.example.cuishuxiang.mycoolweather.ui.main_ui.main_model;
 
 import android.util.Log;
 
+import com.csx.mlibrary.base_model.OnUrlRequestCallBack;
 import com.example.cuishuxiang.mycoolweather.bean_db.Province;
 import com.example.cuishuxiang.mycoolweather.ui.main_ui.main_contract.MainContract;
 import com.example.cuishuxiang.mycoolweather.utils.HttpUtils;
@@ -27,10 +28,10 @@ import okhttp3.Response;
 public class MainModel implements MainContract.Model {
     private static final String TAG = "MainModel";
 
-    private List<Province> provinceList;
-    @Override
-    public List<Province> queryResponse(String url) {
+    private List<Province> provinceList = new ArrayList<>();
 
+    @Override
+    public void queryResponse(String url, final OnUrlRequestCallBack<List<Province>> onUrlRequestCallBack) {
         HttpUtils.sendOkhttpRequest(url, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -38,11 +39,11 @@ public class MainModel implements MainContract.Model {
             }
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                provinceList = new ArrayList<>();
+
+                String datas = response.body().string();
 
                 try {
-                    Log.d(TAG, "onResponse: " + response.body().toString());
-                    JSONArray allProvinces = new JSONArray(response.body().toString());
+                    JSONArray allProvinces = new JSONArray(datas);
 
                     for (int i = 0; i < allProvinces.length(); i++) {
                         JSONObject provinceObj = allProvinces.getJSONObject(i);
@@ -52,8 +53,15 @@ public class MainModel implements MainContract.Model {
                         province.setProvinceName(provinceObj.getString("name"));
 
                         provinceList.add(province);
-
                         province.save();
+                    }
+                    /**
+                     * 这里使用接口回调，将服务器请求的数据，回传
+                     */
+                    if (provinceList != null) {
+                        onUrlRequestCallBack.requestSucceed(provinceList);
+                    } else {
+                        onUrlRequestCallBack.requestFailed();
                     }
 
                 } catch (JSONException e) {
@@ -61,12 +69,5 @@ public class MainModel implements MainContract.Model {
                 }
             }
         });
-
-        if (provinceList != null) {
-            return provinceList;
-        }
-
-        return null;
-
     }
 }

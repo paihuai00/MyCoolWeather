@@ -34,9 +34,12 @@ public abstract class BaseFragment extends Fragment {
         }
         unbinder = ButterKnife.bind(this, rootView);
 
+        initView();
+
         return rootView;
     }
 
+    public abstract void initView();
 
     public abstract int getLayoutRes();
 

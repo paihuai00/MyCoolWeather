@@ -1,17 +1,14 @@
 package com.example.cuishuxiang.mycoolweather.ui.fragments;
 
 import android.app.ProgressDialog;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ListView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.cuishuxiang.mycoolweather.R;
+import com.example.cuishuxiang.mycoolweather.adapter.AreaAdapter;
 import com.example.cuishuxiang.mycoolweather.base.BaseFragment;
 import com.example.cuishuxiang.mycoolweather.bean_db.City;
 import com.example.cuishuxiang.mycoolweather.bean_db.County;
@@ -21,8 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 /**
  * Created by cuishuxiang on 2017/10/19.
@@ -33,13 +28,13 @@ public class ChooseAreaFragment extends BaseFragment {
     @BindView(R.id.title_txt)
     TextView titleTxt;
     @BindView(R.id.back_btn)
-    Button backBtn;
+    ImageView backBtn;
     @BindView(R.id.list_view)
-    ListView listView;
+    RecyclerView recyclerView;
 
     private ProgressDialog progressDialog;
 
-    private ArrayAdapter<String> adapter;
+    private AreaAdapter areaAdapter;
 
     private List<String> dataList;
 
@@ -79,9 +74,20 @@ public class ChooseAreaFragment extends BaseFragment {
     public int getLayoutRes() {
         return R.layout.choose_area;
     }
-
-    private void initView() {
+    @Override
+    public void initView() {
         dataList = new ArrayList<>();
+
+        for (int i = 0; i < 20; i++) {
+            dataList.add(i + " s ");
+        }
+
+
+        areaAdapter = new AreaAdapter(dataList, getContext());
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        recyclerView.setAdapter(areaAdapter);
 
     }
 

@@ -16,7 +16,7 @@ import org.json.JSONObject;
  * 处理返回的 json 数据
  */
 
-public class HandJson {
+public class HandJsonUtils {
     /**
      * 解析从服务器，返回的省级数据，并存储到 数据库
      * @param response

@@ -37,7 +37,6 @@ public class ChooseAreaFragment extends BaseFragment {
     @BindView(R.id.list_view)
     ListView listView;
 
-
     private ProgressDialog progressDialog;
 
     private ArrayAdapter<String> adapter;

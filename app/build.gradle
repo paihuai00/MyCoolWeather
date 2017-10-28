@@ -51,5 +51,8 @@ dependencies {
     //添加适配布局
     compile 'com.zhy:autolayout:1.4.5'
 
+    //log工具
+    compile 'com.orhanobut:logger:2.1.1'
+
     compile project(path: ':mlibrary')
 }

@@ -11,6 +11,8 @@ import com.example.cuishuxiang.mycoolweather.bean_db.Province;
 import com.example.cuishuxiang.mycoolweather.ui.main_ui.main_contract.MainContract;
 import com.example.cuishuxiang.mycoolweather.ui.main_ui.main_model.MainModel;
 import com.example.cuishuxiang.mycoolweather.ui.main_ui.main_presenter.MainPresenter;
+import com.example.cuishuxiang.mycoolweather.utils.LogUtils;
+import com.orhanobut.logger.Logger;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,6 +43,8 @@ public class MainActivity extends BaseActivity implements MainContract.View{
         mPresenter.setVM(this, new MainModel());
 
         mPresenter.mainRequest(Urls.All_PROVINCE_URL);
+
+        LogUtils.d("TAG","---------s---------");
 
     }
 

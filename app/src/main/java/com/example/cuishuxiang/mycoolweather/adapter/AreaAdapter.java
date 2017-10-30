@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.cuishuxiang.mycoolweather.R;
+import com.example.cuishuxiang.mycoolweather.utils.LogUtils;
+import com.example.cuishuxiang.mycoolweather.widget.OnRecyclerViewClickListener;
 
 import java.util.List;
 
@@ -17,12 +19,19 @@ import java.util.List;
  */
 
 public class AreaAdapter extends RecyclerView.Adapter<AreaAdapter.ViewHolder> {
+    private static final String TAG = "AreaAdapter";
     private List<String> dataList;
     private Context mContext;
+
+    private OnRecyclerViewClickListener onRecyclerViewClickListener;
 
     public AreaAdapter(List<String> dataList, Context mContext) {
         this.dataList = dataList;
         this.mContext = mContext;
+    }
+
+    public void setOnRecyclerViewClickListener(OnRecyclerViewClickListener onRecyclerViewClickListener) {
+        this.onRecyclerViewClickListener = onRecyclerViewClickListener;
     }
 
     @Override
@@ -46,11 +55,35 @@ public class AreaAdapter extends RecyclerView.Adapter<AreaAdapter.ViewHolder> {
 
     class ViewHolder extends RecyclerView.ViewHolder {
         private TextView area_txt;
+
         public ViewHolder(View itemView) {
             super(itemView);
 
             area_txt = itemView.findViewById(R.id.area_txt);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (onRecyclerViewClickListener != null) {
+                        onRecyclerViewClickListener.setOnItemClickListener(v, getAdapterPosition());
+                        LogUtils.d(TAG,"点击了 setOnItemClickListener");
+                    }
+                }
+            });
+
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    if (onRecyclerViewClickListener != null) {
+                        onRecyclerViewClickListener.setOnLongClickListener(v, getAdapterPosition());
+                        LogUtils.d(TAG,"点击了 setOnLongClickListener");
+                    }
+                    return true;
+                }
+            });
+
         }
     }
+
 
 }

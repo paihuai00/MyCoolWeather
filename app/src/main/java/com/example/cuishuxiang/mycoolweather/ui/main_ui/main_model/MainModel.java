@@ -3,9 +3,12 @@ package com.example.cuishuxiang.mycoolweather.ui.main_ui.main_model;
 import android.util.Log;
 
 import com.csx.mlibrary.base_model.OnUrlRequestCallBack;
+import com.example.cuishuxiang.mycoolweather.bean_db.City;
+import com.example.cuishuxiang.mycoolweather.bean_db.County;
 import com.example.cuishuxiang.mycoolweather.bean_db.Province;
 import com.example.cuishuxiang.mycoolweather.ui.main_ui.main_contract.MainContract;
 import com.example.cuishuxiang.mycoolweather.utils.HttpUtils;
+import com.example.cuishuxiang.mycoolweather.utils.LogUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,16 +29,22 @@ import okhttp3.Response;
  */
 
 public class MainModel implements MainContract.Model {
-    private static final String TAG = "MainModel";
+    private static final String TAG = MainModel.class.getSimpleName();
+
 
     private List<Province> provinceList = new ArrayList<>();
 
+    /**
+     * 获取 省 的数据
+     * @param url
+     * @param onUrlRequestCallBack
+     */
     @Override
-    public void queryResponse(String url, final OnUrlRequestCallBack<List<Province>> onUrlRequestCallBack) {
+    public void queryProvinceResponse(String url, final OnUrlRequestCallBack<List<Province>> onUrlRequestCallBack) {
         HttpUtils.sendOkhttpRequest(url, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.d(TAG, "onFailure: " + e.getMessage());
+                LogUtils.d(TAG, "获取 省  的数据失败： " + e.getMessage().toString());
             }
             @Override
             public void onResponse(Call call, Response response) throws IOException {
@@ -67,6 +76,46 @@ public class MainModel implements MainContract.Model {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+            }
+        });
+    }
+
+    /**
+     * 获取 市  的数据
+     * @param url
+     * @param onUrlRequestCallBack
+     */
+    @Override
+    public void queryCityResponse(String url, OnUrlRequestCallBack<List<City>> onUrlRequestCallBack) {
+        HttpUtils.sendOkhttpRequest(url, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                LogUtils.d(TAG, "获取 市  的数据失败： " + e.getMessage().toString());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+
+            }
+        });
+    }
+
+    /**
+     * 获取 县  的数据
+     * @param url
+     * @param onUrlRequestCallBack
+     */
+    @Override
+    public void queryCountyResponse(String url, OnUrlRequestCallBack<List<County>> onUrlRequestCallBack) {
+        HttpUtils.sendOkhttpRequest(url, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                LogUtils.d(TAG, "获取 县  的数据失败： " + e.getMessage().toString());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+
             }
         });
     }

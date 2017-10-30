@@ -29,54 +29,18 @@ import okhttp3.Response;
 
 import static android.R.attr.x;
 
-public class MainActivity extends BaseActivity implements MainContract.View{
+/**
+ *
+ */
+public class MainActivity extends BaseActivity{
     private static final String TAG = "MainActivity";
 
-    private MainPresenter mPresenter;
-
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        mPresenter = new MainPresenter();
-        mPresenter.setVM(this, new MainModel());
-
-        mPresenter.mainRequest(Urls.All_PROVINCE_URL);
-
-        LogUtils.d("TAG","---------s---------");
-
+    public int setLayoutRes() {
+        return R.layout.activity_main;
     }
 
     @Override
-    public void showLoading() {
-
-    }
-
-    @Override
-    public void hindLoading() {
-
-    }
-
-    @Override
-    public void showError() {
-
-    }
-
-    /**
-     * 注意，此处不是主线程，如需更新ui，则需要切换到主线程
-     * @param provinceList
-     */
-    @Override
-    public void returnResponse(final List<Province> provinceList) {
-        if (provinceList != null) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Log.d(TAG, "MainTAG: makeText " +"  "+Thread.currentThread().getName().toString());
-                    Toast.makeText(MainActivity.this, "接受到返回数据：" + provinceList.size(), Toast.LENGTH_LONG).show();
-                }
-            });
-        }
+    public void init() {
     }
 }

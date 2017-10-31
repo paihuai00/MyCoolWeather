@@ -152,15 +152,18 @@ public class ChooseAreaFragment extends BaseFragment implements ChooseAreaContra
             @Override
             public void onClick(View v) {
                 Toast.makeText(getContext(), "点击了返回按钮！", Toast.LENGTH_SHORT).show();
-//                if (currentLevel == LEVEL_CITY) {
-//                    queryProvinces();
-//                    backBtn.setVisibility(View.INVISIBLE);
-//                    backBtn.setClickable(false);
-//                }
-//
-//                if (currentLevel == LEVEL_COUNTY) {
-//                    queryCitys();
-//                }
+                if (currentLevel == LEVEL_CITY) {
+                    queryProvinces();
+                    backBtn.setVisibility(View.INVISIBLE);
+                    backBtn.setClickable(false);
+                    titleTxt.setText("中 国");
+                }
+
+                if (currentLevel == LEVEL_COUNTY) {
+                    queryCitys();
+                    backBtn.setVisibility(View.VISIBLE);
+                    backBtn.setClickable(true);
+                }
             }
         });
     }
@@ -195,8 +198,7 @@ public class ChooseAreaFragment extends BaseFragment implements ChooseAreaContra
     private void queryCitys() {
         currentLevel = LEVEL_CITY;
 
-        cityList = DataSupport.where("provinceid = ?",
-                String.valueOf(selectProvince.getId())).find(City.class);
+        cityList = DataSupport.where("provinceid = ?", String.valueOf(selectProvince.getId())).find(City.class);
         if (cityList != null && cityList.size() > 0) {
             dataList.clear();
 
@@ -206,7 +208,7 @@ public class ChooseAreaFragment extends BaseFragment implements ChooseAreaContra
             areaAdapter.notifyDataSetChanged();
         }else {
             //接口 需要拼接
-            mPresenter.requestCityData(Urls.All_CITY_URL + "/" + selectProvince.getProvinceCode());
+            mPresenter.requestCityData(Urls.All_CITY_URL + "/" + selectProvince.getProvinceCode(), selectProvince.getProvinceCode());
         }
     }
 

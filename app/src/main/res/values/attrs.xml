@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--TopBar-->
+    <declare-styleable name="MainTopBar">
+        <attr name="isShowLeftImg" format="boolean" />
+        <attr name="isShowMiddleTxt" format="boolean" />
+        <attr name="isShowRightView" format="boolean" />
+        <attr name="middleTxt" format="reference|string" />
+        <attr name="rightView" format="reference" />
+    </declare-styleable>
+
+</resources>

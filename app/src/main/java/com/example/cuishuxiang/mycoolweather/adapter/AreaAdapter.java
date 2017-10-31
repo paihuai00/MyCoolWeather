@@ -54,6 +54,7 @@ public class AreaAdapter extends RecyclerView.Adapter<AreaAdapter.ViewHolder> {
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
+
         private TextView area_txt;
 
         public ViewHolder(View itemView) {

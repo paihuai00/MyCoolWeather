@@ -38,9 +38,10 @@ public class ChooseAreaPresenter extends ChooseAreaContract.Presenter {
     }
 
     @Override
-    public void requestCityData(String urlCity) {
+    public void requestCityData(String urlCity, int provinceId) {
         mView.onShowLoading();
-        mModel.queryCityResponse(urlCity, new OnUrlRequestCallBack<List<City>>() {
+        mModel.queryCityResponse(urlCity,provinceId, new OnUrlRequestCallBack<List<City>>() {
+
             @Override
             public void requestSucceed(List<City> cityList) {
                 mView.returnCityResponse(cityList);

@@ -88,7 +88,7 @@ public class ChooseAreaModel implements ChooseAreaContract.Model {
      * @param onUrlRequestCallBack
      */
     @Override
-    public void queryCityResponse(String url, int provinceId, final OnUrlRequestCallBack<List<City>> onUrlRequestCallBack) {
+    public void queryCityResponse(String url, final int provinceId, final OnUrlRequestCallBack<List<City>> onUrlRequestCallBack) {
 
         HttpUtils.sendOkhttpRequest(url, new Callback() {
             @Override

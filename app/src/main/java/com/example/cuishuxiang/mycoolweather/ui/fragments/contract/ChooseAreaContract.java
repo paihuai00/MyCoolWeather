@@ -19,7 +19,7 @@ public interface ChooseAreaContract {
     interface Model extends BaseModel {
         void queryProvinceResponse(String url, OnUrlRequestCallBack<List<Province>> onUrlRequestCallBack);
 
-        void queryCityResponse(String url, OnUrlRequestCallBack<List<City>> onUrlRequestCallBack);
+        void queryCityResponse(String url, int provinceId, OnUrlRequestCallBack<List<City>> onUrlRequestCallBack);
 
         void queryCountyResponse(String url, int cityId, OnUrlRequestCallBack<List<County>> onUrlRequestCallBack);
     }
@@ -37,7 +37,7 @@ public interface ChooseAreaContract {
         public abstract void requestProvinceData(String urlProvince);
 
         //请求 所有的市
-        public abstract void requestCityData(String urlCity);
+        public abstract void requestCityData(String urlCity,int provinceId);
 
         //请求 所有的县
         public abstract void requestCountyData(String urlCounty, int cityId);

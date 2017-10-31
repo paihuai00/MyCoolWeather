@@ -71,21 +71,6 @@ public class WelcomeActivity extends BaseActivity implements WelcomeContract.Vie
     }
 
     @Override
-    public void showLoading() {
-        LogUtils.d(TAG, "----------showLoading----------");
-    }
-
-    @Override
-    public void hindLoading() {
-        LogUtils.d(TAG, "----------hindLoading----------");
-    }
-
-    @Override
-    public void showError() {
-        LogUtils.d(TAG, "----------showError----------");
-    }
-
-    @Override
     public void returnImgUrl(final String imgUrl) {
         LogUtils.d(TAG, "----------returnImgUrl----------" + imgUrl);
 
@@ -103,4 +88,18 @@ public class WelcomeActivity extends BaseActivity implements WelcomeContract.Vie
         });
     }
 
+    @Override
+    public void onShowLoading() {
+        LogUtils.d(TAG, "----------showLoading----------");
+    }
+
+    @Override
+    public void onLoadingSucceed() {
+        LogUtils.d(TAG, "----------onLoadingSucceed----------");
+    }
+
+    @Override
+    public void onLoadingError() {
+        LogUtils.d(TAG, "----------showError----------");
+    }
 }

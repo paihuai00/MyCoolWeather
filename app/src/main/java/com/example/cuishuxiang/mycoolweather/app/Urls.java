@@ -24,7 +24,6 @@ public class Urls {
      */
     public static final String All_COUNTRY_URL = "http://guolin.tech/api/china";
 
-
     /**
      * 获取，启动页图片
      */

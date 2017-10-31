@@ -1,4 +1,4 @@
-package com.example.cuishuxiang.mycoolweather.ui.main_ui.main_contract;
+package com.example.cuishuxiang.mycoolweather.ui.fragments.contract;
 
 import com.csx.mlibrary.base_model.BaseModel;
 import com.csx.mlibrary.base_presenter.BasePresenter;
@@ -14,16 +14,14 @@ import java.util.List;
  * Created by cuishuxiang on 2017/10/20.
  */
 
-public interface MainContract {
+public interface ChooseAreaContract {
 
     interface Model extends BaseModel {
         void queryProvinceResponse(String url, OnUrlRequestCallBack<List<Province>> onUrlRequestCallBack);
 
         void queryCityResponse(String url, OnUrlRequestCallBack<List<City>> onUrlRequestCallBack);
 
-
-        void queryCountyResponse(String url, OnUrlRequestCallBack<List<County>> onUrlRequestCallBack);
-
+        void queryCountyResponse(String url, int cityId, OnUrlRequestCallBack<List<County>> onUrlRequestCallBack);
     }
 
     interface View extends BaseView {
@@ -42,7 +40,7 @@ public interface MainContract {
         public abstract void requestCityData(String urlCity);
 
         //请求 所有的县
-        public abstract void requestCountyData(String urlCounty);
+        public abstract void requestCountyData(String urlCounty, int cityId);
     }
 
 }

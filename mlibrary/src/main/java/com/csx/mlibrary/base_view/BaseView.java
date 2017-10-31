@@ -8,10 +8,10 @@ package com.csx.mlibrary.base_view;
 
 public interface BaseView {
 
-    void showLoading();
+    void onShowLoading();
 
-    void hindLoading();
+    void onLoadingSucceed();
 
-    void showError();
+    void onLoadingError();
 
 }

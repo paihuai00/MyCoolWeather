@@ -1,12 +1,10 @@
-package com.example.cuishuxiang.mycoolweather.ui.main_ui.main_model;
-
-import android.util.Log;
+package com.example.cuishuxiang.mycoolweather.ui.fragments.model;
 
 import com.csx.mlibrary.base_model.OnUrlRequestCallBack;
 import com.example.cuishuxiang.mycoolweather.bean_db.City;
 import com.example.cuishuxiang.mycoolweather.bean_db.County;
 import com.example.cuishuxiang.mycoolweather.bean_db.Province;
-import com.example.cuishuxiang.mycoolweather.ui.main_ui.main_contract.MainContract;
+import com.example.cuishuxiang.mycoolweather.ui.fragments.contract.ChooseAreaContract;
 import com.example.cuishuxiang.mycoolweather.utils.HttpUtils;
 import com.example.cuishuxiang.mycoolweather.utils.LogUtils;
 
@@ -28,11 +26,15 @@ import okhttp3.Response;
  * model 层，数据请求
  */
 
-public class MainModel implements MainContract.Model {
-    private static final String TAG = MainModel.class.getSimpleName();
+public class ChooseAreaModel implements ChooseAreaContract.Model {
+    private static final String TAG = ChooseAreaModel.class.getSimpleName();
 
 
     private List<Province> provinceList = new ArrayList<>();
+
+    private List<City> cityList = new ArrayList<>();
+
+    private List<County> countyList = new ArrayList<>();
 
     /**
      * 获取 省 的数据
@@ -86,7 +88,7 @@ public class MainModel implements MainContract.Model {
      * @param onUrlRequestCallBack
      */
     @Override
-    public void queryCityResponse(String url, OnUrlRequestCallBack<List<City>> onUrlRequestCallBack) {
+    public void queryCityResponse(String url, final OnUrlRequestCallBack<List<City>> onUrlRequestCallBack) {
         HttpUtils.sendOkhttpRequest(url, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -95,18 +97,43 @@ public class MainModel implements MainContract.Model {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
+                String datas = response.body().string();
 
+                try {
+                    JSONArray jsonArray = new JSONArray(datas);
+
+                    for (int i = 0; i < jsonArray.length(); i++) {
+
+                        JSONObject cityObject = jsonArray.getJSONObject(i);
+
+                        City city = new City();
+                        city.setCityCode(cityObject.getInt("id"));
+                        city.setCityName(cityObject.getString("name"));
+
+                        city.save();
+                        cityList.add(city);
+                    }
+
+                    if (onUrlRequestCallBack != null) {
+                        onUrlRequestCallBack.requestSucceed(cityList);
+                    } else {
+                        onUrlRequestCallBack.requestFailed();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
 
     /**
      * 获取 县  的数据
+     *
      * @param url
      * @param onUrlRequestCallBack
      */
     @Override
-    public void queryCountyResponse(String url, OnUrlRequestCallBack<List<County>> onUrlRequestCallBack) {
+    public void queryCountyResponse(String url, final int cityId, final OnUrlRequestCallBack<List<County>> onUrlRequestCallBack) {
         HttpUtils.sendOkhttpRequest(url, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -115,7 +142,33 @@ public class MainModel implements MainContract.Model {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
+                String datas = response.body().string();
 
+                try {
+                    JSONArray jsonArray = new JSONArray(datas);
+
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject countyObject = jsonArray.getJSONObject(i);
+
+                        County county = new County();
+                        county.setCountyName(countyObject.getString("name"));
+                        county.setCityId(cityId);
+                        county.setWeatherId(countyObject.getString("weather_id"));
+                        county.save();
+
+                        countyList.add(county);
+
+                    }
+
+                    if (onUrlRequestCallBack != null) {
+                        onUrlRequestCallBack.requestSucceed(countyList);
+                    } else {
+                        onUrlRequestCallBack.requestFailed();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }

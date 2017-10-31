@@ -1,4 +1,4 @@
-package com.example.cuishuxiang.mycoolweather.ui.welcome_ui;
+package com.example.cuishuxiang.mycoolweather.ui.activitys.contract;
 
 import com.csx.mlibrary.base_model.BaseModel;
 import com.csx.mlibrary.base_model.OnUrlRequestCallBack;

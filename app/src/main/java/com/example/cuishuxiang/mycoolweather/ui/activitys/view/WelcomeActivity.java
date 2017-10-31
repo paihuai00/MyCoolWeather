@@ -1,28 +1,21 @@
-package com.example.cuishuxiang.mycoolweather.ui.welcome_ui;
+package com.example.cuishuxiang.mycoolweather.ui.activitys.view;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
 import android.content.Intent;
-import android.os.Bundle;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.view.animation.LinearInterpolator;
-import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.example.cuishuxiang.mycoolweather.R;
 import com.example.cuishuxiang.mycoolweather.app.Urls;
 import com.example.cuishuxiang.mycoolweather.base.BaseActivity;
-import com.example.cuishuxiang.mycoolweather.ui.main_ui.main_view.MainActivity;
+import com.example.cuishuxiang.mycoolweather.ui.activitys.presenter.WelComePresenter;
+import com.example.cuishuxiang.mycoolweather.ui.activitys.contract.WelcomeContract;
+import com.example.cuishuxiang.mycoolweather.ui.activitys.model.WelcomeModel;
 import com.example.cuishuxiang.mycoolweather.utils.GlideApp;
 import com.example.cuishuxiang.mycoolweather.utils.LogUtils;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * @author cuishuxiang

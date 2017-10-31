@@ -1,4 +1,4 @@
-package com.example.cuishuxiang.mycoolweather.ui.main_ui.main_view;
+package com.example.cuishuxiang.mycoolweather.ui.activitys.view;
 
 import com.example.cuishuxiang.mycoolweather.R;
 import com.example.cuishuxiang.mycoolweather.base.BaseActivity;

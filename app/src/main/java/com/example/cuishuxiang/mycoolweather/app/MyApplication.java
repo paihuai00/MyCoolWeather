@@ -5,6 +5,7 @@ import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
 
+import org.litepal.LitePal;
 import org.litepal.LitePalApplication;
 
 /**
@@ -17,7 +18,6 @@ import org.litepal.LitePalApplication;
 public class MyApplication extends LitePalApplication {
     private static final String TAG = MyApplication.class.getSimpleName();
 
-    public static final boolean LOG_CONFIG = true;
     /**
      * 数据查询  key= defbffa06a1846fe8bab0b271a9eca6e
      */
@@ -25,7 +25,12 @@ public class MyApplication extends LitePalApplication {
     public void onCreate() {
         super.onCreate();
 
+        initLitepal();
         initLogger();
+    }
+
+    private void initLitepal() {
+        LitePal.initialize(this);
     }
 
     /**

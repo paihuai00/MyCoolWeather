@@ -4,11 +4,11 @@ import org.litepal.crud.DataSupport;
 
 /**
  * Created by cuishuxiang on 2017/10/19.
- *
+ * <p>
  * 省份表
  */
 
-public class   Province extends DataSupport {
+public class Province extends DataSupport {
     private int id;
 
     private String provinceName;

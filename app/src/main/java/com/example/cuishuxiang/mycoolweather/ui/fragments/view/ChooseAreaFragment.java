@@ -21,6 +21,8 @@ import com.example.cuishuxiang.mycoolweather.ui.fragments.model.ChooseAreaModel;
 import com.example.cuishuxiang.mycoolweather.ui.fragments.presenter.ChooseAreaPresenter;
 import com.example.cuishuxiang.mycoolweather.widget.OnRecyclerViewClickListener;
 
+import org.litepal.crud.DataSupport;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -95,6 +97,10 @@ public class ChooseAreaFragment extends BaseFragment implements ChooseAreaContra
     @Override
     public void initView() {
         dataList = new ArrayList<>();
+        titleTxt.setText("中国");
+        //初始化的时候，不可点击；只有存在二级列表的时候，才显示出来
+        backBtn.setVisibility(View.INVISIBLE);
+        backBtn.setClickable(false);
 
         areaAdapter = new AreaAdapter(dataList, getContext());
         areaAdapter.setOnRecyclerViewClickListener(new OnRecyclerViewClickListener() {
@@ -107,16 +113,21 @@ public class ChooseAreaFragment extends BaseFragment implements ChooseAreaContra
                     selectProvince = provinceList.get(position);
 
                     queryCitys();
+                    titleTxt.setText(selectProvince.getProvinceName());
+                    backBtn.setVisibility(View.VISIBLE);
+                    backBtn.setClickable(true);
 
                 } else if (currentLevel == LEVEL_CITY) {
                     //当前选择   市，需要查询市下面的 县
                     selectCity = cityList.get(position);
 
                     quryCountys();
+
+                    titleTxt.setText(selectCity.getCityName());
+                    backBtn.setVisibility(View.VISIBLE);
+                    backBtn.setClickable(true);
                 } else if (currentLevel == LEVEL_COUNTY) {
                     //当前选择  县，就跳转到具体页面
-
-
 
                 }
             }
@@ -136,53 +147,90 @@ public class ChooseAreaFragment extends BaseFragment implements ChooseAreaContra
 
         queryProvinces();
 
-    }
-
-    /**
-     * 查询 ， 县
-     */
-    private void quryCountys() {
-        mPresenter.requestCountyData(Urls.All_COUNTRY_URL + "/" + selectProvince.getProvinceCode() + "/" + selectCity.getCityCode(), selectCity.getId());
-        currentLevel = LEVEL_COUNTY;
+        //返回按钮
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "点击了返回按钮！", Toast.LENGTH_SHORT).show();
+//                if (currentLevel == LEVEL_CITY) {
+//                    queryProvinces();
+//                    backBtn.setVisibility(View.INVISIBLE);
+//                    backBtn.setClickable(false);
+//                }
+//
+//                if (currentLevel == LEVEL_COUNTY) {
+//                    queryCitys();
+//                }
+            }
+        });
     }
 
     /**
      * 查询  省
      */
     private void queryProvinces() {
-
-        mPresenter.requestProvinceData(Urls.All_PROVINCE_URL);
         currentLevel = LEVEL_PROVINCE;
 
         //1,首先从数据库查询，看是否已经从服务器查询过了
-//        provinceList = DataSupport.findAll(Province.class);
-//        if (provinceList != null && provinceList.size() > 0) {
-//            dataList.clear();
-//
-//            for (Province province : provinceList) {
-//                dataList.add(province.getProvinceName());
-//            }
-//
-//            areaAdapter.notifyDataSetChanged();
-//
-//            currentLevel = LEVEL_PROVINCE;
-//        } else {
-//            //请求，所有省份的数据
-//            mPresenter.requestProvinceData(Urls.All_PROVINCE_URL);
-//        }
+        provinceList = DataSupport.findAll(Province.class);
+        if (provinceList != null && provinceList.size() > 0) {
+            dataList.clear();
+
+            for (Province province : provinceList) {
+                dataList.add(province.getProvinceName());
+            }
+
+            //刷新 列表
+            areaAdapter.notifyDataSetChanged();
+
+        } else {
+            //请求，所有省份的数据
+            mPresenter.requestProvinceData(Urls.All_PROVINCE_URL);
+        }
     }
 
     /**
-     * 查询  市
+     * 查询  市(首先从数据库查询，如果没有，就从接口查询)
      */
     private void queryCitys() {
-        mPresenter.requestCityData(Urls.All_CITY_URL + "/" + selectProvince.getProvinceCode());
-
         currentLevel = LEVEL_CITY;
+
+        cityList = DataSupport.where("provinceid = ?",
+                String.valueOf(selectProvince.getId())).find(City.class);
+        if (cityList != null && cityList.size() > 0) {
+            dataList.clear();
+
+            for (City city : cityList) {
+                dataList.add(city.getCityName());
+            }
+            areaAdapter.notifyDataSetChanged();
+        }else {
+            //接口 需要拼接
+            mPresenter.requestCityData(Urls.All_CITY_URL + "/" + selectProvince.getProvinceCode());
+        }
     }
 
+    /**
+     * 查询 ， 县
+     */
+    private void quryCountys() {
+        currentLevel = LEVEL_COUNTY;
 
+        countyList = DataSupport.where("cityId = ?", String.valueOf(selectCity.getId())).find(County.class);
+        if (countyList != null && countyList.size() > 0) {
+            dataList.clear();
 
+            for (County county : countyList) {
+                dataList.add(county.getCountyName());
+            }
+
+            areaAdapter.notifyDataSetChanged();
+        }else {
+            //接口 需要拼接
+            mPresenter.requestCountyData(Urls.All_COUNTRY_URL + "/" + selectProvince.getProvinceCode() + "/" + selectCity.getCityCode(),
+                    selectCity.getId());
+        }
+    }
 
     /**
      * 注意，此处不是主线程，如需更新ui，则需要切换到主线程

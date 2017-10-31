@@ -29,7 +29,6 @@ import okhttp3.Response;
 public class ChooseAreaModel implements ChooseAreaContract.Model {
     private static final String TAG = ChooseAreaModel.class.getSimpleName();
 
-
     private List<Province> provinceList = new ArrayList<>();
 
     private List<City> cityList = new ArrayList<>();
@@ -84,11 +83,13 @@ public class ChooseAreaModel implements ChooseAreaContract.Model {
 
     /**
      * 获取 市  的数据
+     *
      * @param url
      * @param onUrlRequestCallBack
      */
     @Override
-    public void queryCityResponse(String url, final OnUrlRequestCallBack<List<City>> onUrlRequestCallBack) {
+    public void queryCityResponse(String url, int provinceId, final OnUrlRequestCallBack<List<City>> onUrlRequestCallBack) {
+
         HttpUtils.sendOkhttpRequest(url, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -109,7 +110,7 @@ public class ChooseAreaModel implements ChooseAreaContract.Model {
                         City city = new City();
                         city.setCityCode(cityObject.getInt("id"));
                         city.setCityName(cityObject.getString("name"));
-
+                        city.setProvinceId(provinceId);
                         city.save();
                         cityList.add(city);
                     }

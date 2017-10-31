@@ -7,11 +7,12 @@
 
     <list>
 
-        <moapping class="com.example.cuishuxiang.mycoolweather.bean_db.City" />
+        <mapping class="com.example.cuishuxiang.mycoolweather.bean_db.City" />
 
-        <moapping class="com.example.cuishuxiang.mycoolweather.bean_db.County" />
+        <mapping class="com.example.cuishuxiang.mycoolweather.bean_db.Province" />
 
-        <moapping class="com.example.cuishuxiang.mycoolweather.bean_db.Province" />
+        <mapping class="com.example.cuishuxiang.mycoolweather.bean_db.County" />
+
     </list>
 
 </litepal>

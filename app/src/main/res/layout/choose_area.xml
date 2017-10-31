@@ -13,14 +13,14 @@
             android:layout_height="wrap_content"
             android:id="@+id/title_txt"
             android:textColor="#fff"
-            android:textSize="40px"
+            android:textSize="50px"
             android:layout_centerInParent="true"/>
 
         <ImageView
-            android:layout_width="50px"
-            android:layout_height="50px"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/back_btn"
-            android:layout_marginLeft="25dp"
+            android:layout_marginLeft="25px"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:src="@drawable/ic_arrow_left_black"/>

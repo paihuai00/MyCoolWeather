@@ -6,6 +6,8 @@ import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.widget.ImageView;
 
+import com.csx.mlibrary.utils.LocationMgr;
+import com.csx.mlibrary.utils.SPUtils;
 import com.example.cuishuxiang.mycoolweather.R;
 import com.example.cuishuxiang.mycoolweather.app.Urls;
 import com.example.cuishuxiang.mycoolweather.base.BaseActivity;
@@ -46,6 +48,22 @@ public class WelcomeActivity extends BaseActivity implements WelcomeContract.Vie
         presenter.welcomeRequest(Urls.WELCOME_URL);
 
         initAnimator();
+
+        getLocationMsg();
+    }
+
+    private void getLocationMsg() {
+        if (LocationMgr.checkLocationPermission(WelcomeActivity.this)) {
+            //成功返回位置信息
+            LocationMgr.getMyLocation(WelcomeActivity.this, new LocationMgr.onLocationListener() {
+                @Override
+                public void onLocationChanged(int code, double lat1, double long1, String location) {
+                    LogUtils.d(TAG, "当前位置为：" + location);
+                    //将当前位置信息，存在 sharedPreference 里面
+                    SPUtils.put(WelcomeActivity.this, "location_msg", location);
+                }
+            });
+        }
     }
 
     private void initAnimator() {

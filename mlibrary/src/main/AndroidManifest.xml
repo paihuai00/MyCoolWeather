@@ -2,6 +2,9 @@
 
     package="com.csx.mlibrary">
 
+    <uses-permission
+        android:name="android.permission.ACCESS_COARSE_LOCATION"
+        android:maxSdkVersion="22" />
     <application android:allowBackup="true" android:label="@string/app_name"
         android:supportsRtl="true">
 

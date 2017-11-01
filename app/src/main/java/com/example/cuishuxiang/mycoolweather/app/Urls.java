@@ -28,4 +28,10 @@ public class Urls {
      * 获取，启动页图片
      */
     public static final String WELCOME_URL = "http://guolin.tech/api/bing_pic";
+
+    /**
+     * 获取实时天气
+     * https://free-api.heweather.com/s6/weather/now?location=北京&key=defbffa06a1846fe8bab0b271a9eca6e
+     */
+    public static final String NOW_WEATHER_URL = "https://free-api.heweather.com/s6/weather/now";
 }

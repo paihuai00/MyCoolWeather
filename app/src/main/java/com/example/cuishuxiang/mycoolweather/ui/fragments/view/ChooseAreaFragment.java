@@ -16,6 +16,7 @@ import com.example.cuishuxiang.mycoolweather.base.BaseFragment;
 import com.example.cuishuxiang.mycoolweather.bean_db.City;
 import com.example.cuishuxiang.mycoolweather.bean_db.County;
 import com.example.cuishuxiang.mycoolweather.bean_db.Province;
+import com.example.cuishuxiang.mycoolweather.ui.activitys.view.MainActivity;
 import com.example.cuishuxiang.mycoolweather.ui.fragments.contract.ChooseAreaContract;
 import com.example.cuishuxiang.mycoolweather.ui.fragments.model.ChooseAreaModel;
 import com.example.cuishuxiang.mycoolweather.ui.fragments.presenter.ChooseAreaPresenter;
@@ -128,7 +129,14 @@ public class ChooseAreaFragment extends BaseFragment implements ChooseAreaContra
                     backBtn.setClickable(true);
                 } else if (currentLevel == LEVEL_COUNTY) {
                     //当前选择  县，就跳转到具体页面
+                    if (getActivity() instanceof MainActivity) {
 
+                        MainActivity mainActivity = (MainActivity) getActivity();
+
+                        mainActivity.mPresenter.requestNowWeatherData(dataList.get(position));
+
+                        mainActivity.drawerLayout.closeDrawers();
+                    }
                 }
             }
 

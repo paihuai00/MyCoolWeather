@@ -21,14 +21,12 @@
                 android:background="@color/colorPrimary"
                 android:id="@+id/main_topbar"
                 app:isShowLeftImg="true"
+                app:isShowMiddleTxt="true"
                 />
 
         </com.zhy.autolayout.AutoLinearLayout>
 
     </ScrollView>
-
-
-
 
     <fragment
         android:id="@+id/choose_area_fragment"

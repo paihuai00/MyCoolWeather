@@ -7,6 +7,11 @@ package com.example.cuishuxiang.mycoolweather.app;
  */
 
 public class Urls {
+
+    /**
+     * 和风接口  key
+     */
+    public static final String HEFENG_KEY = "defbffa06a1846fe8bab0b271a9eca6e";
     /**
      * 获取 省份 列表
      */
@@ -25,6 +30,12 @@ public class Urls {
     public static final String All_COUNTRY_URL = "http://guolin.tech/api/china";
 
     /**
+     * 获取 实况天气
+     * 例如：https://free-api.heweather.com/v5/now?city=双阳&key=defbffa06a1846fe8bab0b271a9eca6e
+     */
+    public static final String NOW_WEATHER = "https://free-api.heweather.com/v5/now";
+
+    /**
      * 获取，启动页图片
      */
     public static final String WELCOME_URL = "http://guolin.tech/api/bing_pic";
@@ -34,4 +45,12 @@ public class Urls {
      * https://free-api.heweather.com/s6/weather/now?location=北京&key=defbffa06a1846fe8bab0b271a9eca6e
      */
     public static final String NOW_WEATHER_URL = "https://free-api.heweather.com/s6/weather/now";
+
+    /**
+     * 3-10 天，天气预报
+     * https://free-api.heweather.com/s6/weather/forecast?location=北京&key=defbffa06a1846fe8bab0b271a9eca6e
+     */
+    public static final String FORECAST_WEATHER_URL = "https://free-api.heweather.com/s6/weather/forecast";
+
+
 }

@@ -1,39 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.DrawerLayout
+<com.zhy.autolayout.AutoFrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:id="@+id/drawer_layout"
     android:layout_height="match_parent">
 
-    <ScrollView
+    <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/main_scrollview">
+        android:id="@+id/background_img"
+        android:scaleType="centerCrop"/>
 
-        <com.zhy.autolayout.AutoLinearLayout
+    <android.support.v4.widget.DrawerLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/drawer_layout">
+
+        <android.support.v4.widget.SwipeRefreshLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:id="@+id/swipe_refresh">
 
-            <com.example.cuishuxiang.mycoolweather.widget.action_bar.MainTopBar
+            <ScrollView
+                android:id="@+id/weather_layout"
                 android:layout_width="match_parent"
-                android:layout_height="160px"
-                android:background="@color/colorPrimary"
-                android:id="@+id/main_topbar"
-                app:isShowLeftImg="true"
-                app:isShowMiddleTxt="true"
-                />
+                android:layout_height="match_parent"
+                android:scrollbars="none"
+                android:overScrollMode="never">
 
-        </com.zhy.autolayout.AutoLinearLayout>
+                <com.zhy.autolayout.AutoLinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fitsSystemWindows="true">
 
-    </ScrollView>
+                    <com.example.cuishuxiang.mycoolweather.widget.action_bar.MainTopBar
+                        android:layout_width="match_parent"
+                        android:layout_height="160px"
+                        android:background="@color/colorPrimary"
+                        android:id="@+id/main_topbar"
+                        app:isShowLeftImg="true"
+                        app:isShowMiddleTxt="true"
+                        />
 
-    <fragment
-        android:id="@+id/choose_area_fragment"
-        android:name="com.example.cuishuxiang.mycoolweather.ui.fragments.view.ChooseAreaFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        />
+                    <include layout="@layout/now" />
 
-</android.support.v4.widget.DrawerLayout>
+                    <include layout="@layout/forecast" />
+
+                    <include layout="@layout/aqi" />
+
+                    <include layout="@layout/suggestion" />
+
+                </com.zhy.autolayout.AutoLinearLayout>
+
+            </ScrollView>
+
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+        <fragment
+            android:id="@+id/choose_area_fragment"
+            android:name="com.example.cuishuxiang.mycoolweather.ui.fragments.view.ChooseAreaFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            />
+
+    </android.support.v4.widget.DrawerLayout>
+
+</com.zhy.autolayout.AutoFrameLayout>

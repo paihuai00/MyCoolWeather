@@ -107,7 +107,7 @@ public class ChooseAreaFragment extends BaseFragment implements ChooseAreaContra
         areaAdapter.setOnRecyclerViewClickListener(new OnRecyclerViewClickListener() {
             @Override
             public void setOnItemClickListener(View view, int position) {
-                Toast.makeText(getContext(), "点击了setOnItemClickListener  " + position + dataList.get(position), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(), "点击了setOnItemClickListener  " + position + dataList.get(position), Toast.LENGTH_SHORT).show();
 
                 if (currentLevel == LEVEL_PROVINCE) {
                     //如果当前的为 省 ，需要查询省下面的市

@@ -1,8 +1,7 @@
 package com.example.cuishuxiang.mycoolweather.ui.activitys.presenter;
 
-import android.widget.Toast;
-
 import com.csx.mlibrary.base_model.OnUrlRequestCallBack;
+import com.example.cuishuxiang.mycoolweather.bean_db.ForecastWeatherBean;
 import com.example.cuishuxiang.mycoolweather.bean_db.NowWeatherBean;
 import com.example.cuishuxiang.mycoolweather.ui.activitys.contract.MainContract;
 import com.example.cuishuxiang.mycoolweather.utils.LogUtils;
@@ -31,6 +30,21 @@ public class MainPresenter extends MainContract.Presenter {
             @Override
             public void requestFailed() {
                 LogUtils.d(TAG,"MainPresenter - MainPresenter");
+            }
+        });
+    }
+
+    @Override
+    public void requestForecastData(String locationName) {
+        mModel.queryForecastWeather(locationName, new OnUrlRequestCallBack<ForecastWeatherBean>() {
+            @Override
+            public void requestSucceed(ForecastWeatherBean forecastWeatherBean) {
+                mView.returnForecastDatas(forecastWeatherBean);
+            }
+
+            @Override
+            public void requestFailed() {
+                LogUtils.d(TAG,"requestForecastData  requestFailed() ");
             }
         });
     }

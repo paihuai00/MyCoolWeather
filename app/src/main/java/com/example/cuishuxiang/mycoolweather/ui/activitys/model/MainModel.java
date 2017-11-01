@@ -1,9 +1,9 @@
 package com.example.cuishuxiang.mycoolweather.ui.activitys.model;
 
-import com.csx.mlibrary.base_model.BaseModel;
 import com.csx.mlibrary.base_model.OnUrlRequestCallBack;
 import com.example.cuishuxiang.mycoolweather.app.AppConstant;
 import com.example.cuishuxiang.mycoolweather.app.Urls;
+import com.example.cuishuxiang.mycoolweather.bean_db.ForecastWeatherBean;
 import com.example.cuishuxiang.mycoolweather.bean_db.NowWeatherBean;
 import com.example.cuishuxiang.mycoolweather.ui.activitys.contract.MainContract;
 import com.example.cuishuxiang.mycoolweather.utils.HttpUtils;
@@ -11,7 +11,6 @@ import com.example.cuishuxiang.mycoolweather.utils.LogUtils;
 import com.google.gson.Gson;
 
 import java.io.IOException;
-import java.util.logging.Logger;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -31,6 +30,7 @@ public class MainModel implements MainContract.Model {
      * @param locationName
      * @param onUrlRequestCallBack
      */
+    @Override
     public void queryNowWeather(String locationName, final OnUrlRequestCallBack<NowWeatherBean> onUrlRequestCallBack) {
 
         HttpUtils.sendOkhttpRequest(Urls.NOW_WEATHER_URL + "?location=" + locationName + "&key=" + AppConstant.HEFENG_KEY,
@@ -51,5 +51,29 @@ public class MainModel implements MainContract.Model {
             }
         });
     }
+
+    /**
+     * https://free-api.heweather.com/s6/weather/forecast?location=北京&key=defbffa06a1846fe8bab0b271a9eca6e
+     */
+    @Override
+    public void queryForecastWeather(String locationName, final OnUrlRequestCallBack<ForecastWeatherBean> onUrlRequestCallBack) {
+
+        HttpUtils.sendOkhttpRequest(Urls.FORECAST_WEATHER_URL + "?location=" + locationName + "&key=" + AppConstant.HEFENG_KEY, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                onUrlRequestCallBack.requestFailed();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String datas = response.body().string();
+                ForecastWeatherBean forecastWeatherBean = gson.fromJson(datas, ForecastWeatherBean.class);
+                onUrlRequestCallBack.requestSucceed(forecastWeatherBean);
+            }
+        });
+    }
+
+
+
 
 }

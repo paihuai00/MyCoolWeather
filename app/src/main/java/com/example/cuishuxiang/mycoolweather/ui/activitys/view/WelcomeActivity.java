@@ -45,7 +45,17 @@ public class WelcomeActivity extends BaseActivity implements WelcomeContract.Vie
 
         presenter.setVM(this, new WelcomeModel());
 
-        presenter.welcomeRequest(Urls.WELCOME_URL);
+        //首先从本地获取，如果没有，就从服务器获取
+        if (SPUtils.get(WelcomeActivity.this, "background_img", null) != null) {
+            GlideApp.with(WelcomeActivity.this)
+                    .load(SPUtils.get(WelcomeActivity.this, "background_img", null))
+                    .error(R.mipmap.ic_launcher)
+                    .into(welcomImg);
+
+            alphaAnimation.start();
+        }else {
+            presenter.welcomeRequest(Urls.WELCOME_URL);
+        }
 
         initAnimator();
 
@@ -88,13 +98,15 @@ public class WelcomeActivity extends BaseActivity implements WelcomeContract.Vie
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-
+                //用sharedPreferences将获取到的  图片地址，存储
+                SPUtils.put(WelcomeActivity.this, "background_img", imgUrl);
                 GlideApp.with(WelcomeActivity.this)
                         .load(imgUrl)
                         .error(R.mipmap.ic_launcher)
                         .into(welcomImg);
 
                 alphaAnimation.start();
+
             }
         });
     }

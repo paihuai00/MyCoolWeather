@@ -6,6 +6,7 @@ import com.example.cuishuxiang.mycoolweather.app.Urls;
 import com.example.cuishuxiang.mycoolweather.bean_db.AirQualityBean;
 import com.example.cuishuxiang.mycoolweather.bean_db.ForecastWeatherBean;
 import com.example.cuishuxiang.mycoolweather.bean_db.NowWeatherBean;
+import com.example.cuishuxiang.mycoolweather.bean_db.SuggestBean;
 import com.example.cuishuxiang.mycoolweather.ui.activitys.contract.MainContract;
 import com.example.cuishuxiang.mycoolweather.utils.HttpUtils;
 import com.example.cuishuxiang.mycoolweather.utils.LogUtils;
@@ -97,6 +98,34 @@ public class MainModel implements MainContract.Model {
                 AirQualityBean airQualityBean = gson.fromJson(datas, AirQualityBean.class);
 
                 qualityBeanOnUrlRequestCallBack.requestSucceed(airQualityBean);
+
+            }
+        });
+    }
+
+    /**
+     * https://free-api.heweather.com/s6/weather/lifestyle?location=北京&key=defbffa06a1846fe8bab0b271a9eca6e
+     * @param location
+     * @param suggestBeanOnUrlRequestCallBack
+     */
+    @Override
+    public void querySuggestion(String location, final OnUrlRequestCallBack<SuggestBean> suggestBeanOnUrlRequestCallBack) {
+
+        HttpUtils.sendOkhttpRequest(Urls.SUGGESTION_URL + "?location=" + location + "&key=" + AppConstant.HEFENG_KEY, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                suggestBeanOnUrlRequestCallBack.requestFailed();
+                LogUtils.d(TAG,"生活建议 onFailure");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                LogUtils.d(TAG,"生活建议 onResponse");
+                String jsonObj = response.body().string();
+
+                SuggestBean suggestBean = gson.fromJson(jsonObj, SuggestBean.class);
+
+                suggestBeanOnUrlRequestCallBack.requestSucceed(suggestBean);
 
             }
         });

@@ -4,6 +4,7 @@ import com.csx.mlibrary.base_model.OnUrlRequestCallBack;
 import com.example.cuishuxiang.mycoolweather.bean_db.AirQualityBean;
 import com.example.cuishuxiang.mycoolweather.bean_db.ForecastWeatherBean;
 import com.example.cuishuxiang.mycoolweather.bean_db.NowWeatherBean;
+import com.example.cuishuxiang.mycoolweather.bean_db.SuggestBean;
 import com.example.cuishuxiang.mycoolweather.ui.activitys.contract.MainContract;
 import com.example.cuishuxiang.mycoolweather.utils.LogUtils;
 
@@ -45,6 +46,7 @@ public class MainPresenter extends MainContract.Presenter {
 
             @Override
             public void requestFailed() {
+                mView.onLoadingError();
                 LogUtils.d(TAG,"requestForecastData  requestFailed() ");
             }
         });
@@ -60,7 +62,24 @@ public class MainPresenter extends MainContract.Presenter {
 
             @Override
             public void requestFailed() {
+                mView.onLoadingError();
                 LogUtils.d(TAG,"requestAirQualityData  -- requestFailed");
+            }
+        });
+    }
+
+    @Override
+    public void requestSuggestionDat(String locationName) {
+        mModel.querySuggestion(locationName, new OnUrlRequestCallBack<SuggestBean>() {
+            @Override
+            public void requestSucceed(SuggestBean suggestBean) {
+                mView.returnSuggestionDatas(suggestBean);
+            }
+
+            @Override
+            public void requestFailed() {
+                LogUtils.d(TAG, "生活建议 requestFailed");
+                mView.onLoadingError();
             }
         });
     }

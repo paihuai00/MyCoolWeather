@@ -57,4 +57,11 @@ public class Urls {
      * https://free-api.heweather.com/s6/air/now?location=北京&key=defbffa06a1846fe8bab0b271a9eca6e
      */
     public static final String AIR_URL = "https://free-api.heweather.com/s6/air/now";
+
+    /**
+     * 生活建议
+     * https://free-api.heweather.com/s6/weather/lifestyle?location=北京&key=defbffa06a1846fe8bab0b271a9eca6e
+     */
+    public static final String SUGGESTION_URL = "https://free-api.heweather.com/s6/weather/lifestyle";
+
 }

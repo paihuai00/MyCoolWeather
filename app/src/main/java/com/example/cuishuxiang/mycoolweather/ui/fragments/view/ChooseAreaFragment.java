@@ -130,12 +130,17 @@ public class ChooseAreaFragment extends BaseFragment implements ChooseAreaContra
                 } else if (currentLevel == LEVEL_COUNTY) {
                     //当前选择  县，就跳转到具体页面
                     if (getActivity() instanceof MainActivity) {
-
                         MainActivity mainActivity = (MainActivity) getActivity();
 
-                        mainActivity.mPresenter.requestNowWeatherData(dataList.get(position));
-
                         mainActivity.drawerLayout.closeDrawers();
+
+                        mainActivity.swipeRefresh.setRefreshing(true);
+
+                        mainActivity.currentCity = dataList.get(position);
+
+                        mainActivity.requestAllDatas(dataList.get(position));
+
+                        mainActivity.swipeRefresh.setRefreshing(false);
                     }
                 }
             }

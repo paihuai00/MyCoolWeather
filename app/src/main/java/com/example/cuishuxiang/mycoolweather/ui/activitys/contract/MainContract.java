@@ -7,6 +7,7 @@ import com.csx.mlibrary.base_view.BaseView;
 import com.example.cuishuxiang.mycoolweather.bean_db.AirQualityBean;
 import com.example.cuishuxiang.mycoolweather.bean_db.ForecastWeatherBean;
 import com.example.cuishuxiang.mycoolweather.bean_db.NowWeatherBean;
+import com.example.cuishuxiang.mycoolweather.bean_db.SuggestBean;
 
 /**
  * @author cuishuxiang
@@ -21,6 +22,8 @@ public interface MainContract {
         void queryForecastWeather(String locationName, OnUrlRequestCallBack<ForecastWeatherBean> onUrlRequestCallBack);
 
         void queryAirQuality(String loactionName, OnUrlRequestCallBack<AirQualityBean> qualityBeanOnUrlRequestCallBack);
+
+        void querySuggestion(String location, OnUrlRequestCallBack<SuggestBean> suggestBeanOnUrlRequestCallBack);
     }
 
     interface View extends BaseView {
@@ -29,6 +32,8 @@ public interface MainContract {
         void returnForecastDatas(ForecastWeatherBean forecastWeatherBean);
 
         void returnAirQualityDatas(AirQualityBean airQualityBean);
+
+        void returnSuggestionDatas(SuggestBean suggestBean);
     }
 
     abstract class Presenter extends BasePresenter<View, Model> {
@@ -37,6 +42,8 @@ public interface MainContract {
         public abstract void requestForecastData(String locationName);
 
         public abstract void requestAirQualityData(String locationName);
+
+        public abstract void requestSuggestionDat(String locationName);
     }
 
 }

@@ -3,6 +3,8 @@ package com.example.cuishuxiang.mycoolweather.ui.activitys.view;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -10,6 +12,7 @@ import android.widget.TextView;
 import com.csx.mlibrary.utils.SPUtils;
 import com.example.cuishuxiang.mycoolweather.R;
 import com.example.cuishuxiang.mycoolweather.base.BaseActivity;
+import com.example.cuishuxiang.mycoolweather.bean_db.AirQualityBean;
 import com.example.cuishuxiang.mycoolweather.bean_db.ForecastWeatherBean;
 import com.example.cuishuxiang.mycoolweather.bean_db.NowWeatherBean;
 import com.example.cuishuxiang.mycoolweather.ui.activitys.contract.MainContract;
@@ -29,7 +32,7 @@ import butterknife.BindView;
  *
  */
 public class MainActivity extends BaseActivity implements TopBarImp, MainContract.View {
-    private static final String TAG = "MainActivity";
+
     @BindView(R.id.main_topbar)
     MainTopBar mainTopbar;
     @BindView(R.id.drawer_layout)
@@ -99,6 +102,9 @@ public class MainActivity extends BaseActivity implements TopBarImp, MainContrac
 
         //获取 预报天气
         mPresenter.requestForecastData(currentLoction);
+
+        //获取 空气质量
+        mPresenter.requestAirQualityData(currentLoction);
     }
 
     @Override
@@ -126,6 +132,10 @@ public class MainActivity extends BaseActivity implements TopBarImp, MainContrac
 
     }
 
+    /**
+     * 获取 实时天气bean
+     * @param nowWeatherBean
+     */
     @Override
     public void returnNowWeatherDatas(NowWeatherBean nowWeatherBean) {
         //动态设置当前城市
@@ -150,13 +160,59 @@ public class MainActivity extends BaseActivity implements TopBarImp, MainContrac
         LogUtils.d(TAG, nowWeatherBean.getHeWeather6().get(0).getStatus());
     }
 
+    /**
+     * 获取预报天气数据
+     * @param forecastWeatherBean
+     */
     @Override
-    public void returnForecastDatas(ForecastWeatherBean forecastWeatherBean) {
-        List<ForecastWeatherBean.HeWeather6Bean.DailyForecastBean> dailyForecastBeanList =
+    public void returnForecastDatas(final ForecastWeatherBean forecastWeatherBean) {
+        final List<ForecastWeatherBean.HeWeather6Bean.DailyForecastBean> dailyForecastBeanList =
                 forecastWeatherBean.getHeWeather6().get(0).getDaily_forecast();
 
         LogUtils.d(TAG, "预报了" + dailyForecastBeanList.size() + "天气");
+        //设置 预报天气
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                for (ForecastWeatherBean.HeWeather6Bean.DailyForecastBean forecastWeatherBean: dailyForecastBeanList) {
+                    View itemView = LayoutInflater.from(MainActivity.this).
+                            inflate(R.layout.forecast_item, forecastLayout, false);
+                    TextView dateText = (TextView) itemView.findViewById(R.id.date_text);
+                    TextView infoText = (TextView) itemView.findViewById(R.id.info_text);
+                    TextView maxText = (TextView) itemView.findViewById(R.id.max_text);
+                    TextView minText = (TextView) itemView.findViewById(R.id.min_text);
+
+                    dateText.setText(forecastWeatherBean.getDate());
+                    infoText.setText("白天：" + forecastWeatherBean.getCond_txt_d() + "\n夜间：" + forecastWeatherBean.getCond_txt_n());
+                    maxText.setText("最高："+forecastWeatherBean.getTmp_max()+" °");
+                    minText.setText("最低："+forecastWeatherBean.getTmp_min()+" °");
+
+                    forecastLayout.addView(itemView);
+                }
+
+
+            }
+        });
 
     }
+
+    /**
+     * 获取 空气质量数据
+     * @param airQualityBean
+     */
+    @Override
+    public void returnAirQualityDatas(AirQualityBean airQualityBean) {
+
+        final AirQualityBean.HeWeather6Bean.AirNowBean.AirCityBean airCityBean = airQualityBean.getHeWeather6().get(0).getAir_now().getAir_city();
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                aqiText.setText(airCityBean.getAqi());
+                pm25Text.setText(airCityBean.getPm25());
+            }
+        });
+    }
+
 
 }

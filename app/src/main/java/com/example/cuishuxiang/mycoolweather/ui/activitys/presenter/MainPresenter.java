@@ -1,6 +1,7 @@
 package com.example.cuishuxiang.mycoolweather.ui.activitys.presenter;
 
 import com.csx.mlibrary.base_model.OnUrlRequestCallBack;
+import com.example.cuishuxiang.mycoolweather.bean_db.AirQualityBean;
 import com.example.cuishuxiang.mycoolweather.bean_db.ForecastWeatherBean;
 import com.example.cuishuxiang.mycoolweather.bean_db.NowWeatherBean;
 import com.example.cuishuxiang.mycoolweather.ui.activitys.contract.MainContract;
@@ -45,6 +46,21 @@ public class MainPresenter extends MainContract.Presenter {
             @Override
             public void requestFailed() {
                 LogUtils.d(TAG,"requestForecastData  requestFailed() ");
+            }
+        });
+    }
+
+    @Override
+    public void requestAirQualityData(String locationName) {
+        mModel.queryAirQuality(locationName, new OnUrlRequestCallBack<AirQualityBean>() {
+            @Override
+            public void requestSucceed(AirQualityBean airQualityBean) {
+                mView.returnAirQualityDatas(airQualityBean);
+            }
+
+            @Override
+            public void requestFailed() {
+                LogUtils.d(TAG,"requestAirQualityData  -- requestFailed");
             }
         });
     }

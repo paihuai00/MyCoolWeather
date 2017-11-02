@@ -3,6 +3,7 @@ package com.example.cuishuxiang.mycoolweather.ui.activitys.model;
 import com.csx.mlibrary.base_model.OnUrlRequestCallBack;
 import com.example.cuishuxiang.mycoolweather.app.AppConstant;
 import com.example.cuishuxiang.mycoolweather.app.Urls;
+import com.example.cuishuxiang.mycoolweather.bean_db.AirQualityBean;
 import com.example.cuishuxiang.mycoolweather.bean_db.ForecastWeatherBean;
 import com.example.cuishuxiang.mycoolweather.bean_db.NowWeatherBean;
 import com.example.cuishuxiang.mycoolweather.ui.activitys.contract.MainContract;
@@ -73,7 +74,33 @@ public class MainModel implements MainContract.Model {
         });
     }
 
+    /**
+     * https://free-api.heweather.com/s6/air/now?location=北京&key=defbffa06a1846fe8bab0b271a9eca6e
+     * @param loactionName
+     * @param qualityBeanOnUrlRequestCallBack
+     */
+    @Override
+    public void queryAirQuality(String loactionName, final OnUrlRequestCallBack<AirQualityBean> qualityBeanOnUrlRequestCallBack) {
 
+        HttpUtils.sendOkhttpRequest(Urls.AIR_URL + "?location=" + loactionName + "&key=" + AppConstant.HEFENG_KEY, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                LogUtils.d(TAG, "空气质量  onFailure");
+
+                qualityBeanOnUrlRequestCallBack.requestFailed();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String datas = response.body().string();
+
+                AirQualityBean airQualityBean = gson.fromJson(datas, AirQualityBean.class);
+
+                qualityBeanOnUrlRequestCallBack.requestSucceed(airQualityBean);
+
+            }
+        });
+    }
 
 
 }

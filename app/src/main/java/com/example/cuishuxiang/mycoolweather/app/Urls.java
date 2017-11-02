@@ -52,5 +52,9 @@ public class Urls {
      */
     public static final String FORECAST_WEATHER_URL = "https://free-api.heweather.com/s6/weather/forecast";
 
-
+    /**
+     * 空气质量
+     * https://free-api.heweather.com/s6/air/now?location=北京&key=defbffa06a1846fe8bab0b271a9eca6e
+     */
+    public static final String AIR_URL = "https://free-api.heweather.com/s6/air/now";
 }
